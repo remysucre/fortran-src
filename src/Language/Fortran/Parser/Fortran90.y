@@ -1,9 +1,13 @@
 -- -*- Mode: Haskell -*-
 {
 module Language.Fortran.Parser.Fortran90 ( statementParser
+                                         , blocksParser
+                                         , transformations90
                                          , functionParser
                                          , fortran90Parser
                                          , fortran90ParserWithModFiles
+                                         , parseStmt
+                                         , parseBlock
                                          ) where
 
 import Prelude hiding (EQ,LT,GT) -- Same constructors exist in the AST
@@ -30,6 +34,7 @@ import Debug.Trace
 %name programParser PROGRAM
 %name functionParser SUBPROGRAM_UNIT
 %name statementParser STATEMENT
+%name blocksParser BLOCKS
 %monad { LexAction }
 %lexer { lexer } { TEOF _ }
 %tokentype { Token }
@@ -1067,9 +1072,19 @@ fortran90Parser ::
     B.ByteString -> String -> ParseResult AlexInput Token (ProgramFile A0)
 fortran90Parser = fortran90ParserWithModFiles emptyModFiles
 
+parseStmt :: B.ByteString -> ParseResult AlexInput Token (Statement A0)
+parseStmt sourceCode = runParse statementParser parseState
+  where
+    parseState = initParseState sourceCode Fortran90 ""
+
+parseBlock :: B.ByteString -> ParseResult AlexInput Token ([Block A0])
+parseBlock sourceCode = runParse blocksParser parseState
+  where
+    parseState = initParseState sourceCode Fortran90 ""
+
 fortran90ParserWithModFiles ::
     ModFiles -> B.ByteString -> String -> ParseResult AlexInput Token (ProgramFile A0)
-fortran90ParserWithModFiles mods sourceCode filename =
+fortran90ParserWithModFiles mods sourceCode filename = 
     fmap (pfSetFilename filename . transformWithModFiles mods transformations90) $ parse parseState
   where
     parseState = initParseState sourceCode Fortran90 filename

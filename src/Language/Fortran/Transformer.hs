@@ -10,7 +10,7 @@ import Language.Fortran.Transformation.TransformMonad (Transform, runTransform)
 import Language.Fortran.Transformation.Disambiguation.Function
 import Language.Fortran.Transformation.Disambiguation.Intrinsic
 import Language.Fortran.Transformation.Grouping
-import Language.Fortran.AST (ProgramFile)
+import Language.Fortran.AST (ProgramFile, Statement)
 
 data Transformation =
     GroupForall
