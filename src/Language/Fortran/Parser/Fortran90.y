@@ -341,6 +341,7 @@ METASTMT :: { Statement A0 }
 
 EXPRESSION_ASSIGNMENT_STATEMENT :: { Statement A0 }
 : DATA_REF '=' EXPRESSION { StExpressionAssign () (getTransSpan $1 $3) $1 $3 }
+| wildsloth { MetaStmt () (getSpan $1) }
 
 NONEXECUTABLE_STATEMENT :: { Statement A0 }
 : DECLARATION_STATEMENT { $1 }
