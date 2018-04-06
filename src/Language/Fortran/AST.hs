@@ -401,7 +401,8 @@ data FormatItem a =
   deriving (Eq, Show, Data, Typeable, Generic, Functor)
 
 data DoSpecification a =
-  DoSpecification a SrcSpan (Statement a) (Expression a) (Maybe (Expression a))
+    MetaDS              a SrcSpan
+  | DoSpecification a SrcSpan (Statement a) (Expression a) (Maybe (Expression a))
   deriving (Eq, Show, Data, Typeable, Generic, Functor)
 
 data Expression a =

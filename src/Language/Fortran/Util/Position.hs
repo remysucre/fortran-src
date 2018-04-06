@@ -33,6 +33,7 @@ initPosition = Position
   , posLine = 1
   }
 
+
 lineCol :: Position -> (Int, Int)
 lineCol p  = (fromIntegral $ posLine p, fromIntegral $ posColumn p)
 

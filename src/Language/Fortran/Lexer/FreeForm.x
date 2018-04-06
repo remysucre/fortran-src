@@ -202,6 +202,7 @@ tokens :-
 <0,scI> "stop"                                    { addSpan TStop }
 <0,scI> "pause"                                   { addSpan TPause }
 <0,scI> "wildsloth"                               { addSpan TMeta }
+<scN> "mildsloth"                               { addSpan TSloth }
 <0> "forall"                                      { addSpan TForall }
 <0> "end"\ *"forall"                              { addSpan TEndForall }
 
@@ -953,6 +954,7 @@ alexScanUser :: User -> AlexInput -> Int -> AlexReturn (LexAction (Maybe Token))
 
 data Token =
     TMeta               SrcSpan
+  | TSloth              SrcSpan
   | TId                 SrcSpan String
   | TComment            SrcSpan String
   | TString             SrcSpan String
@@ -1147,6 +1149,7 @@ instance SpecifiesType [ Token ] where
 --------------------------------------------------------------------------------
 -- Functions to help testing & output
 --------------------------------------------------------------------------------
+
 
 initParseState :: B.ByteString -> FortranVersion -> String -> ParseState AlexInput
 initParseState srcBytes fortranVersion filename =

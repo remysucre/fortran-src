@@ -42,6 +42,7 @@ import Debug.Trace
 
 %token
   wildsloth                   { TMeta _ }
+  mildsloth                   { TSloth _ }
   id                          { TId _ _ }
   comment                     { TComment _ _ }
   string                      { TString _ _ }
@@ -341,7 +342,6 @@ METASTMT :: { Statement A0 }
 
 EXPRESSION_ASSIGNMENT_STATEMENT :: { Statement A0 }
 : DATA_REF '=' EXPRESSION { StExpressionAssign () (getTransSpan $1 $3) $1 $3 }
-| wildsloth { MetaStmt () (getSpan $1) }
 
 NONEXECUTABLE_STATEMENT :: { Statement A0 }
 : DECLARATION_STATEMENT { $1 }
@@ -993,7 +993,8 @@ RANGE :: { Index A0 }
   { IxRange () (getTransSpan $1 $3) (Just $1) (Just $3) Nothing }
 
 DO_SPECIFICATION :: { DoSpecification A0 }
-: EXPRESSION_ASSIGNMENT_STATEMENT ',' EXPRESSION ',' EXPRESSION
+: mildsloth { MetaDS () (getSpan $1) }
+| EXPRESSION_ASSIGNMENT_STATEMENT ',' EXPRESSION ',' EXPRESSION
   { DoSpecification () (getTransSpan $1 $5) $1 $3 (Just $5) }
 | EXPRESSION_ASSIGNMENT_STATEMENT ',' EXPRESSION
   { DoSpecification () (getTransSpan $1 $3) $1 $3 Nothing }
