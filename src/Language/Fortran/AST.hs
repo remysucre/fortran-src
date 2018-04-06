@@ -236,7 +236,8 @@ data Block a =
   deriving (Eq, Show, Data, Typeable, Generic, Functor)
 
 data Statement a  =
-    StDeclaration         a SrcSpan (TypeSpec a) (Maybe (AList Attribute a)) (AList Declarator a)
+    MetaStmt              a SrcSpan
+  | StDeclaration         a SrcSpan (TypeSpec a) (Maybe (AList Attribute a)) (AList Declarator a)
   | StStructure           a SrcSpan (Maybe String) (AList StructureItem a)
   | StIntent              a SrcSpan Intent (AList Expression a)
   | StOptional            a SrcSpan (AList Expression a)

@@ -201,6 +201,7 @@ tokens :-
 <0,scI> "continue"                                { addSpan TContinue }
 <0,scI> "stop"                                    { addSpan TStop }
 <0,scI> "pause"                                   { addSpan TPause }
+<0,scI> "wildsloth"                               { addSpan TMeta }
 <0> "forall"                                      { addSpan TForall }
 <0> "end"\ *"forall"                              { addSpan TEndForall }
 
@@ -951,7 +952,8 @@ alexScanUser :: User -> AlexInput -> Int -> AlexReturn (LexAction (Maybe Token))
 --------------------------------------------------------------------------------
 
 data Token =
-    TId                 SrcSpan String
+    TMeta               SrcSpan
+  | TId                 SrcSpan String
   | TComment            SrcSpan String
   | TString             SrcSpan String
   | TIntegerLiteral     SrcSpan String

@@ -41,6 +41,7 @@ import Debug.Trace
 %error { parseError }
 
 %token
+  wildsloth                   { TMeta _ }
   id                          { TId _ _ }
   comment                     { TComment _ _ }
   string                      { TString _ _ }
@@ -331,8 +332,12 @@ NEWLINE :: { Token }
 | ';' { $1 }
 
 STATEMENT :: { Statement A0 }
-: NONEXECUTABLE_STATEMENT { $1 }
+: METASTMT { $1 }
+| NONEXECUTABLE_STATEMENT { $1 }
 | EXECUTABLE_STATEMENT { $1 }
+
+METASTMT :: { Statement A0 }
+: wildsloth { MetaStmt () (getSpan $1) }
 
 EXPRESSION_ASSIGNMENT_STATEMENT :: { Statement A0 }
 : DATA_REF '=' EXPRESSION { StExpressionAssign () (getTransSpan $1 $3) $1 $3 }
