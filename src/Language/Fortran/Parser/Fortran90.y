@@ -1028,7 +1028,8 @@ RELATIONAL_OPERATOR :: { BinaryOp }
 | '<='  { LTE }
 
 VARIABLE :: { Expression A0 }
-: id { ExpValue () (getSpan $1) $ let (TId _ s) = $1 in ValVariable s }
+: mildsloth { ExpValue () (getSpan $1) MetaVarE }
+| id { ExpValue () (getSpan $1) $ let (TId _ s) = $1 in ValVariable s }
 
 NUMERIC_LITERAL :: { Expression A0 }
 : INTEGER_LITERAL { $1 } | REAL_LITERAL { $1 }

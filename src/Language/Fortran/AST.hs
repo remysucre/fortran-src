@@ -446,6 +446,7 @@ data Value a =
   -- ^ A string literal
   | ValHollerith         String
   -- ^ A Hollerith literal
+  | MetaVarE
   | ValVariable          Name
   -- ^ The name of a variable
   | ValIntrinsic         Name
